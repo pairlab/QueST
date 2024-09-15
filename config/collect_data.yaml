@@ -1,0 +1,22 @@
+defaults:
+  - task: metaworld_ml45
+  - algo: data_collect
+  - _self_
+
+algo:
+  name: data_collection
+
+exp_name: ${task.suite_name} # 
+variant_name: ${task.benchmark_name}
+seed: 10000
+device: cuda:0
+stage: 1
+output_prefix: ./experiments
+data_prefix: ./data
+make_unique_experiment_dir: true
+
+
+rollout:
+  enabled: true
+  rollouts_per_env: ${task.demos_per_env}
+  max_episode_length: 500

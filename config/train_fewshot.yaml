@@ -1,0 +1,14 @@
+defaults:
+  - train_base
+  - _self_
+
+stage: 2 # 0 - pretrain autoencoder, 1 - train multitask, 2 - finetune multitask
+
+training:
+  n_epochs: 200 # 100 is best for libero, 200 for metaworld
+
+rollout:
+  interval: 25
+  rollouts_per_env: 5
+
+logging_folder: fewshot

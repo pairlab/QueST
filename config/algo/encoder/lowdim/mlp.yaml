@@ -1,0 +1,4 @@
+_target_: quest.algos.utils.mlp_proj.MLPProj
+_partial_: true
+output_size: ${algo.lowdim_embed_dim}
+num_layers: 1

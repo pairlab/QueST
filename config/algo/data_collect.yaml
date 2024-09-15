@@ -1,0 +1,4 @@
+# This is a dummy yaml file supplying values to make the task interpolation keys work
+
+frame_stack: 1
+skill_block_size: 1

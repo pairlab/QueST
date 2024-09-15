@@ -1,0 +1,9 @@
+defaults:
+  - libero_base
+  - _self_
+
+benchmark_name: LIBERO_10
+mode: fewshot
+n_tasks: 10
+rollouts_per_env: 5
+

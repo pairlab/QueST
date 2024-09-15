@@ -1,0 +1,8 @@
+# I don't rember if this works
+_target_: quest.algos.utils.rgb_modules.ACTEncoder
+_partial_: true
+embed_dim: ${algo.image_embed_dim}
+backbone_name: resnet18
+# train_backbone: true
+return_interm_layers: false
+dilation: false

@@ -1,0 +1,9 @@
+defaults:
+  - metaworld_base
+  - _self_
+
+benchmark_name: ML45_PRISE
+mode: test
+n_tasks: 50
+demos_per_env: 5
+

@@ -1,0 +1,54 @@
+defaults:
+  - base
+  - _self_
+
+policy:
+  _target_: quest.algos.diffusion_policy.DiffusionPolicy
+  diffusion_model:
+    _target_: quest.algos.diffusion_policy.DiffusionModel
+    noise_scheduler: 
+      _target_: diffusers.schedulers.scheduling_ddim.DDIMScheduler
+      num_train_timesteps: ${algo.diffusion_train_steps}
+      beta_schedule: squaredcos_cap_v2
+    action_dim: ${task.shape_meta.action_dim}
+    global_cond_dim: ${eval:'${algo.embed_dim} + ${algo.lang_emb_dim}'}
+    diffusion_step_emb_dim: ${algo.diffusion_step_emb_dim}
+    down_dims: [256,512,1024]
+    ema_power: 0.75
+    skill_block_size: ${algo.skill_block_size}
+    diffusion_inf_steps: ${algo.diffusion_inf_steps}
+    device: ${device}
+  action_horizon: ${algo.action_horizon}
+  obs_reduction: cat
+  device: ${device}
+
+
+name: diffusion_policy
+
+lr: 0.0001
+weight_decay: 0.0001
+
+lowdim_embed_dim: 128
+image_embed_dim: 256 
+pc_embed_dim: 256
+diffusion_step_emb_dim: 256
+lang_emb_dim: 256 # clip embedding size
+embed_dim: 256
+
+skill_block_size: 16 # this is input sequence length to encoder
+
+
+diffusion_train_steps: 100
+diffusion_inf_steps: 10
+
+action_horizon: 2 # mpc horizon for execution
+
+frame_stack: 1
+
+dataset:
+  seq_len: ${algo.skill_block_size}
+  frame_stack: ${algo.frame_stack}
+  obs_seq_len: 1
+  lowdim_obs_seq_len: null
+  load_obs_for_pretrain: true
+  load_next_obs: false

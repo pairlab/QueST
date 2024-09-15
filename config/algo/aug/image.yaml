@@ -1,0 +1,13 @@
+_target_: quest.algos.utils.data_augmentation.DataAugGroup
+_partial_: true
+aug_list:
+  - _target_: quest.algos.utils.data_augmentation.BatchWiseImgColorJitterAug
+    _partial_: true
+    brightness: 0.3
+    contrast: 0.3
+    saturation: 0.3
+    hue: 0.3
+    epsilon: 0.1
+  - _target_: quest.algos.utils.data_augmentation.TranslationAug
+    _partial_: true
+    translation: 4

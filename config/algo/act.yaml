@@ -1,0 +1,55 @@
+defaults:
+  - base
+  - _self_
+
+policy:
+  _target_: quest.algos.act.ACT
+  act_model:
+    _target_: quest.algos.baseline_modules.act_utils.detr_vae.DETRVAE
+    transformer:
+      _target_: quest.algos.baseline_modules.act_utils.transformer.build_transformer
+      hidden_dim: ${algo.embed_dim}
+      dropout: 0.1
+      nheads: 8
+      dim_feedforward: ${eval:'${algo.embed_dim} * 4'}
+      enc_layers: 4
+      dec_layers: 7
+      pre_norm: false
+    encoder:
+      _target_: quest.algos.baseline_modules.act_utils.detr_vae.build_encoder
+      d_model: ${algo.embed_dim}
+      nheads: 8
+      dim_feedforward: ${eval:'${algo.embed_dim} * 4'}
+      enc_layers: 4
+      pre_norm: false
+      dropout: 0.1
+    state_dim: ${task.shape_meta.action_dim}
+    proprio_dim: 8
+    shape_meta: ${task.shape_meta}
+    num_queries: ${algo.skill_block_size}
+  loss_fn:
+    _target_: torch.nn.L1Loss
+  kl_weight: ${algo.kl_weight}
+  lr_backbone: ${algo.lr}
+  action_horizon: ${algo.action_horizon}
+  obs_reduction: 'none'
+
+name: act
+
+lr: 0.0001
+weight_decay: 0.0001
+
+kl_weight: 10.0
+embed_dim: 256
+action_horizon: 2
+
+skill_block_size: 16 # this is output action sequence length, for ACT 16 works better than 32
+frame_stack: 1 # this is input observation sequence length
+
+dataset:
+  seq_len: ${algo.skill_block_size}
+  frame_stack: ${algo.frame_stack}
+  obs_seq_len: 1
+  lowdim_obs_seq_len: null
+  load_obs_for_pretrain: true
+  load_next_obs: false

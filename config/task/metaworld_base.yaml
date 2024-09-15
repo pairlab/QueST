@@ -1,0 +1,61 @@
+
+suite_name: metaworld
+mode: train
+horizon: 500
+demo_noise: 0.2
+
+img_height: 128
+img_width: 128
+
+shape_meta:
+  action_dim: 4
+  observation:
+    rgb:
+      corner_rgb:
+        - 3
+        - ${task.img_height}
+        - ${task.img_width}
+    lowdim:
+      robot_states: 8
+  task:
+    type: onehot
+    n_tasks: ${task.n_tasks}
+
+dataset:
+  _target_: quest.utils.metaworld_utils.build_dataset
+  data_prefix: ${data_prefix}
+  suite_name: ${task.suite_name}
+  benchmark_name: ${task.benchmark_name}
+  mode: ${task.mode}
+  seq_len: ${algo.dataset.seq_len}
+  frame_stack: ${algo.dataset.frame_stack}
+  obs_seq_len: ${algo.dataset.obs_seq_len}
+  lowdim_obs_seq_len: ${algo.dataset.lowdim_obs_seq_len}
+  shape_meta: ${task.shape_meta}
+  load_obs: ${training.load_obs}
+  n_demos: ${task.demos_per_env}
+  load_next_obs: ${algo.dataset.load_next_obs}
+  dataset_keys: ${algo.dataset.dataset_keys}
+
+env_factory:
+  _target_: quest.utils.metaworld_utils.MetaWorldWrapper
+  _partial_: true 
+  shape_meta: ${task.shape_meta}
+  img_height: ${task.img_height}
+  img_width: ${task.img_width}
+  cameras: ['corner2']
+  env_kwargs: null
+
+env_runner:
+  _target_: quest.env_runner.metaworld_runner.MetaWorldRunner
+  env_factory:
+    _target_: quest.utils.metaworld_utils.MetaWorldFrameStack
+    _partial_: true
+    env_factory: ${task.env_factory}
+    num_stack: ${algo.frame_stack}
+  benchmark_name: ${task.benchmark_name}
+  mode: ${task.mode}
+  rollouts_per_env: ${rollout.rollouts_per_env}
+  fps: 24
+  debug: false
+  

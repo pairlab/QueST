@@ -1,0 +1,23 @@
+defaults:
+  - train_base
+  - _self_
+
+train_dataloader:
+  batch_size: 256
+
+training:
+  n_epochs: 100 # 100 recommended for libero, 200 for metaworld
+  use_amp: false # this seems to cause instabilities for shorter chunks (<64) but causes speedups for larger ones
+  load_obs: ${algo.dataset.load_obs_for_pretrain}
+
+rollout:
+  enabled: false
+  rollouts_per_env: null
+  max_episode_length: null
+
+stage: 0 # 0 - pretrain autoencoder, 1 - train multitask, 2 - finetune multitask
+
+logging_folder: autoencoder
+
+
+

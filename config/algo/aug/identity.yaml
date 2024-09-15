@@ -1,0 +1,2 @@
+_target_: quest.algos.utils.data_augmentation.IdentityAug
+_partial_: true

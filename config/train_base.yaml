@@ -1,0 +1,66 @@
+defaults:
+  - task: metaworld_ml45
+  - algo: quest
+  - _self_
+
+# set the path to your data and experiments directories
+output_prefix: ./experiments
+data_prefix: ./data
+
+exp_name: debug # 
+variant_name: null
+seed: 10000
+device: cuda:0
+stage: null # 0 - pretrain autoencoder, 1 - train multitask, 2 - finetune multitask
+make_unique_experiment_dir: true # if true, it will create unique experiment directories with name run_00X within that experiment directory, use when debugging
+logging_folder: training
+
+checkpoint_path: null
+
+
+train_dataloader:
+  _target_: torch.utils.data.DataLoader
+  batch_size: 128
+  shuffle: true
+  num_workers: 6
+  persistent_workers: false
+  pin_memory: true
+  multiprocessing_context: fork
+  # prefetch_factor: 2
+
+training:
+  n_epochs: 100
+  grad_clip: 100.
+  save_interval: 10
+  log_interval: 100
+  use_amp: false
+  use_tqdm: true
+  do_profile: false
+  save_all_checkpoints: false
+  auto_continue: false # if true, it will automatically continue from the end of stage n training for stage n+1 training
+  load_obs: true
+  cut: 0
+
+  # resume a training run
+  resume: false
+  resume_path: ""
+
+rollout:
+  enabled: true
+  interval: 10
+  rollouts_per_env: 1
+  max_episode_length: ${task.horizon}
+  n_video: 0
+  num_parallel_envs: 1
+
+
+logging:
+  group: null
+  mode: online # set logging.mode=disabled to disable wandb
+  project: dynaquest # TODO: change this to your wandb project name
+  resume: true
+  save_code: true
+
+
+
+

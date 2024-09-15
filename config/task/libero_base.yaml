@@ -1,0 +1,74 @@
+
+suite_name: libero
+benchmark_name: null
+mode: all
+n_tasks: 10
+demos_per_env: 50
+
+task_embedding_format: clip
+img_height: 128
+img_width: 128
+horizon: 600
+
+shape_meta:
+  action_dim: 7
+  observation:
+    rgb:
+      agentview_rgb:
+        - 3
+        - ${task.img_height}
+        - ${task.img_width}
+      eye_in_hand_rgb:
+        - 3
+        - ${task.img_height}
+        - ${task.img_width}
+    lowdim:
+      joint_states: 7
+      ee_pos: 3
+      gripper_states: 2
+  task:
+    type: vector
+    dim: 512
+
+dataset:
+  _target_: quest.utils.libero_utils.build_dataset
+  data_prefix: ${data_prefix}
+  suite_name: ${task.suite_name}
+  benchmark_name: ${task.benchmark_name}
+  mode: ${task.mode}
+  seq_len: ${algo.dataset.seq_len}
+  frame_stack: ${algo.dataset.frame_stack}
+  obs_seq_len: ${algo.dataset.obs_seq_len}
+  shape_meta: ${task.shape_meta}
+  load_obs: ${training.load_obs}
+  task_embedding_format: ${task.task_embedding_format}
+  n_demos: ${task.demos_per_env}
+
+env_factory:
+  _target_: quest.utils.libero_utils.LiberoWrapper
+  _partial_: true 
+  shape_meta: ${task.shape_meta}
+  obs_key_mapping: ${task.obs_key_mapping}
+  img_height: ${task.img_height}
+  img_width: ${task.img_width}
+  device: ${device}
+
+env_runner:
+  _target_: quest.env_runner.libero_runner.LiberoRunner
+  env_factory: ${task.env_factory}
+  frame_stack: ${algo.frame_stack}
+  benchmark_name: ${task.benchmark_name}
+  mode: ${task.mode}
+  rollouts_per_env: ${rollout.rollouts_per_env}
+  num_parallel_envs: ${rollout.num_parallel_envs}
+  max_episode_length: ${rollout.max_episode_length}
+  fps: 24
+  debug: false
+  task_embedding_format: ${task.task_embedding_format}
+
+obs_key_mapping:
+  agentview_rgb: agentview_image
+  eye_in_hand_rgb: robot0_eye_in_hand_image
+  gripper_states: robot0_gripper_qpos
+  joint_states: robot0_joint_pos
+  ee_pos: robot0_eef_pos

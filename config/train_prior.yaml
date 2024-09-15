@@ -1,0 +1,15 @@
+defaults:
+  - train_base
+  - _self_
+
+stage: 1 # 0 - pretrain autoencoder, 1 - train multitask, 2 - finetune multitask
+
+logging_folder: prior
+
+training:
+  n_epochs: 100 # on libero: 20 for quest and 100 for other algos, 100 on metaworld for all algos
+
+rollout:
+  interval: 25 # 25 is best for libero, 10 for metaworld
+  rollouts_per_env: 5
+  num_parallel_envs: 5 # 5 recommended for libero, 1 for metaworld

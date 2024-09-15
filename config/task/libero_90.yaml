@@ -1,0 +1,9 @@
+defaults:
+  - libero_base
+  - _self_
+
+benchmark_name: LIBERO_90
+mode: all
+n_tasks: 90
+rollouts_per_env: 50
+

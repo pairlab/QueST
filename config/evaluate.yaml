@@ -1,0 +1,32 @@
+defaults:
+  - task: metaworld_ml45
+  - algo: quest
+  - _self_
+
+
+training:
+  use_tqdm: true
+  n_epochs: 0
+  do_profile: false
+  resume: false
+  load_obs: false
+
+rollout:
+  enabled: true
+  interval: 10
+  rollouts_per_env: 50
+  max_episode_length: ${task.horizon}
+  num_parallel_envs: 1
+  n_video: 0
+
+exp_name: debug # 
+variant_name: null
+seed: 10000
+device: cuda:0
+stage: 1 # 0 - pretrain autoencoder, 1 - train multitask, 2 - finetune multitask
+output_prefix: ./experiments
+data_prefix: ./data
+make_unique_experiment_dir: false
+
+checkpoint_path: null
+

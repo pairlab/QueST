@@ -1,0 +1,62 @@
+defaults:
+  - base
+  - _self_
+
+policy:
+  _target_: quest.algos.bet.BehaviorTransformer
+  autoencoder:
+    _target_: quest.algos.baseline_modules.vq_behavior_transformer.vqvae.VqVae
+    input_dim_h: ${algo.skill_block_size}  # length of action chunk
+    input_dim_w: ${task.shape_meta.action_dim}  # action dim
+    n_latent_dims: 512
+    vqvae_n_embed: 32
+    vqvae_groups: 2
+    hidden_dim: 128
+    num_layers: 1
+    device: ${device}
+  policy_prior:
+    _target_: quest.algos.baseline_modules.vq_behavior_transformer.gpt.GPT
+    block_size: 30
+    input_dim: ${algo.embed_dim}
+    output_dim: 256 # fixed as per original vqbet implementation
+    n_layer: 6
+    n_head: 6
+    n_embd: ${algo.embed_dim}
+    dropout: 0.1
+  stage: ${stage}
+  loss_fn:
+    _target_: quest.algos.bet.FocalLoss
+    gamma: 2.0
+  offset_loss_multiplier: ${algo.offset_loss_multiplier}
+  secondary_code_multiplier: ${algo.beta}
+  frame_stack: ${algo.frame_stack}
+  skill_block_size: ${algo.skill_block_size}
+  sequentially_select: false
+  action_horizon: ${algo.action_horizon}
+  obs_reduction: cat
+  device: ${device}
+
+
+name: vqbet
+
+lr: 5.5e-5
+weight_decay: 2e-4
+
+embed_dim: 120
+lowdim_embed_dim: 128
+image_embed_dim: 256
+offset_loss_multiplier: 100
+beta: 0.5
+
+frame_stack: 10
+skill_block_size: 5 # this is input sequence length to encoder
+
+action_horizon: 2 # mpc horizon for execution
+
+dataset:
+  seq_len: ${eval:'${algo.frame_stack} + ${algo.skill_block_size} - 1'}
+  frame_stack: 1
+  lowdim_obs_seq_len: null
+  obs_seq_len: ${algo.frame_stack}
+  load_obs_for_pretrain: false
+  load_next_obs: false

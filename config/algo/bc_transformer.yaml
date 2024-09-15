@@ -1,0 +1,49 @@
+defaults:
+  - base
+  - _self_
+
+policy:
+  _target_: quest.algos.bc_transformer.BCTransformerPolicy
+  transformer_model:
+    _target_: quest.algos.baseline_modules.bc_transformer_modules.TransformerDecoder
+    input_size: ${algo.embed_dim}
+    num_layers: 4
+    num_heads: 6
+    head_output_size: 64
+    mlp_hidden_size: 256
+    dropout: 0.1
+  policy_head:
+    _target_: quest.algos.baseline_modules.bc_transformer_modules.GMMHead
+    input_size: ${algo.embed_dim}
+    output_size: ${task.shape_meta.action_dim}
+    hidden_size: 1024
+    num_layers: 2
+    min_std: 0.0001
+    num_modes: 5
+    low_eval_noise: false
+    activation: "softplus"
+    loss_coef: 1.0
+  positional_encoding:
+    _target_: quest.algos.baseline_modules.bc_transformer_modules.SinusoidalPositionEncoding
+    input_size: ${algo.embed_dim}
+    inv_freq_factor: 10
+  loss_reduction: 'mean'
+  obs_reduction: stack
+  device: ${device}
+
+name: bc_transformer_policy
+
+lr: 0.0001
+weight_decay: 0.0001
+
+embed_dim: 128
+skill_block_size: 1 # bc_transformer does not do action chunking
+frame_stack: 10 # this is input observation sequence length
+
+dataset:
+  seq_len: ${algo.skill_block_size}
+  frame_stack: ${algo.frame_stack}
+  obs_seq_len: 1
+  lowdim_obs_seq_len: null
+  load_obs_for_pretrain: false
+  load_next_obs: false

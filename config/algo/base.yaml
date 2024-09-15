@@ -1,0 +1,34 @@
+defaults:
+  - encoder/lowdim: mlp
+  - encoder/image: resnet
+  - aug: image
+
+embed_dim: 256
+lowdim_embed_dim: ${algo.embed_dim}
+image_embed_dim: ${algo.embed_dim}
+
+policy:
+  image_encoder_factory: ${algo.encoder.image}
+  lowdim_encoder_factory: ${algo.encoder.lowdim}
+  aug_factory: ${algo.aug}
+  optimizer_factory:
+    _target_: torch.optim.AdamW
+    _partial_: true
+    lr: ${algo.lr}
+    betas: [0.9, 0.999]    
+    weight_decay: ${algo.weight_decay}
+  scheduler_factory:
+    _target_: torch.optim.lr_scheduler.CosineAnnealingLR
+    _partial_: true
+    eta_min: 1e-5
+    last_epoch: -1
+    T_max: ${training.n_epochs}
+  embed_dim: ${algo.embed_dim}
+  shape_meta: ${task.shape_meta}
+  obs_reduction: 'none'
+  device: ${device}
+
+dataset:
+  lowdim_obs_seq_len: ${algo.skill_block_size}
+  load_next_obs: false
+  dataset_keys: [actions]
