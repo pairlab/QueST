@@ -18,7 +18,7 @@ tokenizers==0.19.1
 torchtyping==0.1.4
 ema-pytorch==0.5.2
 natsort==8.4.0
-opencv-python==4.6.0.66
+opencv-python==4.8.1.78
 thop==0.1.1-2209072238
 bddl==1.0.1
 future==0.18.2
