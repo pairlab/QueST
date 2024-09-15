@@ -21,7 +21,7 @@ natsort==8.4.0
 opencv-python==4.6.0.66
 thop==0.1.1-2209072238
 bddl==1.0.1
-future==0.18.2
+future==0.18.3
 gym==0.25.2
 cloudpickle==2.1.0
 robosuite
