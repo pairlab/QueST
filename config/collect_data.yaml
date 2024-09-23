@@ -1,5 +1,5 @@
 defaults:
-  - task: metaworld_ml45
+  - task: metaworld_ml45_prise
   - algo: data_collect
   - _self_
 

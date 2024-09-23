@@ -304,6 +304,7 @@ class MetaWorldWrapper(gymnasium.Wrapper):
                 shape=(obs_meta['lowdim'][key],),
                 dtype=np.float32
             )
+        obs_space_dict['obs_gt'] = env.observation_space
         self.observation_space = gymnasium.spaces.Dict(obs_space_dict)
 
     def step(self, action):

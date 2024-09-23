@@ -1,0 +1,8 @@
+defaults:
+  - metaworld_base
+  - _self_
+
+benchmark_name: ML45
+mode: train
+n_tasks: 50
+rollouts_per_env: 100
