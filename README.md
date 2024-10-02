@@ -14,6 +14,7 @@ Atharva Mete, Haotian Xue, Albert Wilcox, Yongxin Chen, Animesh Garg
 <hr style="border: 2px solid gray;"></hr>
 
 ## Latest Updates
+- [2024-09-25] Accepted at NeurIPS 2024 🎉
 - [2024-09-09] Initial release
 
 <hr style="border: 2px solid gray;"></hr>
