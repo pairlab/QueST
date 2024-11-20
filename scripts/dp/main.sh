@@ -14,7 +14,6 @@ python train.py --config-name=train_prior.yaml \
     train_dataloader.num_workers=6 \
     make_unique_experiment_dir=false \
     algo.skill_block_size=32 \
-    training.auto_continue=true \
     rollout.num_parallel_envs=5 \
     rollout.rollouts_per_env=5 \
     seed=0
