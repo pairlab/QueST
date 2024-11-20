@@ -2,7 +2,7 @@
 # This script is used to train stage 2 i.e. finetuning Quest for downstream tasks
 
 python train.py --config-name=train_fewshot.yaml \
-    task=libero_long \
+    task=libero_long_fewshot \
     algo=quest \
     exp_name=final \
     variant_name=block_32_ds_4 \

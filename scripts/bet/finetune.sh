@@ -2,7 +2,7 @@
 # This script is used to finetune VQ-BeT on downstream tasks
 
 python train.py --config-name=train_fewshot.yaml \
-    task=libero_long \
+    task=libero_long_fewshot \
     algo=bet \
     exp_name=final \
     variant_name=block_5 \

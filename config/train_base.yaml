@@ -57,7 +57,7 @@ rollout:
 logging:
   group: null
   mode: online # set logging.mode=disabled to disable wandb
-  project: dynaquest # TODO: change this to your wandb project name
+  project: quest # TODO: change this to your wandb project name
   resume: true
   save_code: true
 

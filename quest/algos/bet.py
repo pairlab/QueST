@@ -280,8 +280,8 @@ class BehaviorTransformer(ChunkPolicy):
             )
 
         indices = (
-            torch.arange(NT).unsqueeze(1).cuda(),
-            torch.arange(self._G).unsqueeze(0).cuda(),
+            torch.arange(NT).unsqueeze(1).to(sampled_centers.device),
+            torch.arange(self._G).unsqueeze(0).to(sampled_centers.device),
             sampled_centers,
         )
         # Use advanced indexing to sample the values

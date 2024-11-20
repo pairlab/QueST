@@ -83,7 +83,7 @@ Here, training.auto_continue will automatically load the latest checkpoint from 
 Run the following command to finetune QueST on a downstream tasks. (ref: [finetune.sh](scripts/quest/finetune.sh))
 ```
 python train.py --config-name=train_fewshot.yaml \
-    task=libero_long \
+    task=libero_long_fewshot \
     algo=quest \
     exp_name=final \
     variant_name=block_32_ds_4 \
@@ -93,7 +93,9 @@ python train.py --config-name=train_fewshot.yaml \
     training.auto_continue=true \
     seed=0
 ```
-Here, algo.l1_loss_scale is used to finetune the decoder of the autoencoder while finetuning.
+Here, algo.l1_loss_scale is used to finetune the decoder of the autoencoder while finetuning. 
+
+For metaworld fewshot, set task=metaworld_ml45_prise_fewshot and algo.l1_loss_scale=0.
 
 ## Evaluating
 Run the following command to evaluate the trained model. (ref: [eval.sh](scripts/eval.sh))

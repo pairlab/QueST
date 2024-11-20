@@ -68,6 +68,9 @@ class SkillVAE(nn.Module):
         assert int(np.log2(downsample_factor)) == np.log2(downsample_factor), 'downsample_factor must be a power of 2'
         strides = [2] * int(np.log2(downsample_factor)) + [1]
         kernel_sizes = [5] + [3] * int(np.log2(downsample_factor))
+        if len(strides) == 1:
+            kernel_sizes = [3, 2]
+            strides = [1,1]
 
         if vq_type == 'vq':
             self.vq = VectorQuantize(dim=encoder_dim, codebook_dim=codebook_dim, codebook_size=codebook_size)

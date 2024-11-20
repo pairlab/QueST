@@ -16,6 +16,7 @@ datasets_scripted
 *videos
 *.mp4
 results
+plots
 outputs/*
 /MUJOCO_LOG.TXT
 wandb

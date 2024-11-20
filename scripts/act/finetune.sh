@@ -2,7 +2,7 @@
 # This script is used to finetune ACT on downstream tasks
 
 python train.py --config-name=train_fewshot.yaml \
-    task=libero_long \
+    task=libero_long_fewshot \
     algo=act \
     exp_name=final \
     variant_name=block_16 \
