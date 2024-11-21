@@ -185,7 +185,7 @@ def build_dataset(data_prefix,
                   ):
     benchmark = get_benchmark(benchmark_name)()
     n_tasks = benchmark.n_tasks
-    few_shot_demos = [1, 5, 10, 20, 45] if mode == 'fewshot' else None
+    few_shot_demos = np.linspace(0, 49, n_demos, dtype=int).tolist() if mode == 'fewshot' else None
     few_shot_demos_list = [f"demo_{i}" for i in few_shot_demos] if few_shot_demos is not None else None
     
     manip_datasets = []

@@ -42,7 +42,9 @@ def main(cfg):
 
     start_epoch, steps, wandb_id = 0, 0, None
     if train_cfg.auto_continue:
-        checkpoint_path = os.path.join(experiment_dir, os.path.pardir, f'stage_{cfg.stage - 1}')
+        checkpoint_path = experiment_dir.rsplit('/', 1)[0] + f'/stage_{cfg.stage - 1}'
+        if 'libero' in checkpoint_path and cfg.stage == 2:
+            checkpoint_path = checkpoint_path.replace('10', '90') # since we want to initialize the model from the libero_90 benchmark
     elif train_cfg.resume and len(os.listdir(experiment_dir)) > 0: 
         checkpoint_path = experiment_dir
     else: 
